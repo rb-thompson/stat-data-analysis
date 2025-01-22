@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Spending Statistics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Average Spending Habits Statistics</h1>
+    <div class="tab">
+        {% for category in statistics.keys() %}
+        <button class="tablinks" onclick="openCategory(event, '{{ category }}')">{{ category }}</button>
+        {% endfor %}
+    </div>
+
+    {% for category, stats in statistics.items() %}
+    <div id="{{ category }}" class="tabcontent">
+        <h2>{{ category }}</h2>
+        <ul>
+            <li>
+                <strong>Mean: {{ stats.mean }}</strong>
+                <p>The mean is the average monthly spending for {{ category }}.</p>
+                <em>Analogy: Like averaging the monthly expenses of all households for {{ category }}.</em>
+            </li>
+            <li>
+                <strong>Median: {{ stats.median }}</strong>
+                <p>The median represents the middle value of spending in {{ category }}, where half spend more and half spend less.</p>
+                <em>Analogy: Think of lining up all monthly bills for {{ category }}; the median would be the middle bill if sorted.</em>
+            </li>
+            <li>
+                <strong>Mode: {{ stats.mode }}</strong>
+                <p>The mode is the most common amount spent on {{ category }} each month.</p>
+                <em>Analogy: Like finding the most common monthly payment for {{ category }} among different households.</em>
+            </li>
+            <li>
+                <strong>Variance: {{ stats.variance }}</strong>
+                <p>Variance shows how much spending on {{ category }} varies from the mean.</p>
+                <em>Analogy: Imagine variance as how much monthly spending on {{ category }} fluctuates; high variance means large swings in spending.</em>
+            </li>
+            <li>
+                <strong>Standard Deviation: {{ stats.std_dev }}</strong>
+                <p>The standard deviation indicates how dispersed the spending on {{ category }} is around the mean.</p>
+                <em>Analogy: If variance was how much spending varies, standard deviation is how much you'd expect spending on {{ category }} to deviate from the average household spending.</em>
+            </li>
+        </ul>
+    </div>
+    {% endfor %}
+
+    <script>
+        function openCategory(evt, categoryName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(categoryName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Show the first tab by default
+        document.getElementsByClassName('tablinks')[0].click();
+    </script>
+</body>
+</html>
